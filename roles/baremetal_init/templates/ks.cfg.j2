@@ -1,8 +1,14 @@
 # This kickstart file was created by ansible for {{ host.hostname }}.{{ host.domain }} running RedHat 9 x86_64
 # This creates the minimal install on baremetal for bootstrapping:
+{% if "provisioner" in host.hostname %}
 # - rhis-builder-provisioner (optional)
+{% endif %}
+{% if "idm" in host.hostname %}
 # - rhis-builder-idm
+{% endif %}
+{% if "satellite" in host.hostname %}
 # - rhis-builder-satellite
+{% endif %}
 
 lang en_US.UTF-8
 selinux --enforcing
@@ -90,7 +96,7 @@ chvt 1
 exec < /dev/tty3 > /dev/tty3
 chvt 3
 (
-logger "Starting anaconda satellite.example.ca postinstall"
+logger "Starting anaconda {{ host.hostname }}.{{ host.domain }} postinstall"
 
 
 # enp0s25 interface
@@ -125,6 +131,9 @@ cat >> ~{{ host.username }}/.ssh/authorized_keys <<EOF
 EOF
 chown -R {{ host.username }}:{{ host.username }} ~{{ host.username }}/.ssh
 chmod -R go= ~{{ host.username }}/.ssh
+{% if "provisioner" in host.hostname %}
+mkdir ~/.ssh/multiplexing
+{% endif %}
 
 cat >> /etc/sudoers.d/{{ host.username }} <<EOF
 {{ host.user_sudoer_policy }}
