@@ -61,6 +61,7 @@ reboot
 bash-completion
 man-pages
 net-tools
+bind-utils
 tmux
 xfsdump
 yum-utils
@@ -116,6 +117,9 @@ MTU=1500
 
 EOF
 
+# make sure that we get a reliable DNS for the base install
+nmcli conn mod $real ipv4.dns 8.8.8.8,8.8.4.4 && sudo nmcli conn up $real
+
 # add our provisioner user - this user is deleted later
 
 useradd -G wheel {{ host.username }} -p '{{ host.user_enc_pass }}'
@@ -130,6 +134,9 @@ cat >> /etc/sudoers.d/{{ host.username }} <<EOF
 {{ host.user_sudoer_policy }}
 EOF
 
+cat >> /etc/hosts <<EOF
+{{ host.hostname }}.{{ host.domain }}    {{ host.ipv4_address }}
+EOF
 
 subscription-manager register --org={{ host.org }} --activationkey={{ host.activation_key }}
 
@@ -147,3 +154,4 @@ chvt 1
 sync
 
 %end
+
