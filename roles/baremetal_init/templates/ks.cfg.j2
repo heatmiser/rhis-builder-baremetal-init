@@ -73,6 +73,11 @@ chrony
 {% if "provisioner" in host.hostname %}
 @container-management
 ansible-core
+{% elif "kvm" in host.hostname %}
+@container-management
+ansible-core
+@virtualization
+@virtualization-tools
 {% endif %}
 %end
 
