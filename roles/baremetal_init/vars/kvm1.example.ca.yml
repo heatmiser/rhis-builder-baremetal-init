@@ -1,16 +1,16 @@
 ---
 
-# Variables for the idm kickstart
+# Variables for the kvm kickstart
 
 ks_path: "ks.cfg"                        # noqa var-naming[no-role-prefix]
 oem_dir: "/run/media/parmstro/OEMDRV"    # noqa var-naming[no-role-prefix]
 
 baremetal_hosts:                         # noqa var-naming[no-role-prefix]
-  - rhis_role: "idm"
-    hostname: "idm1"
+  - rhis_role: "kvm"
+    hostname: "kvm1"
     domain: "example.ca"
-    mac: "94:c6:91:a3:ac:f5"
-    ipv4_address: "192.168.140.5"
+    mac: "94:c6:91:a6:2a:89"
+    ipv4_address: "192.168.140.10"
     ipv4_netmask: "255.255.252.0"
     ipv4_gateway: "192.168.140.1"
     name_server1: "8.8.8.8"
@@ -19,6 +19,8 @@ baremetal_hosts:                         # noqa var-naming[no-role-prefix]
     grub_enc_pass: "{{ encrypted_grub_pass_vault }}"
     boot_disk: "/dev/nvme0n1"
     root_disk: "/dev/nvme0n1"
+#    additional_disks:
+#      - "/dev/sda"
     # We will always use compliance layout
     boot_mb: 1024
     boot_efi_mb: 2048
