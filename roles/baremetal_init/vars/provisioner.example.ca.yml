@@ -1,6 +1,6 @@
 ---
 
-# Variables for the satellite kickstart
+# Variables for the provisioner kickstart
 
 ks_path: "ks.cfg"                        # noqa var-naming[no-role-prefix]
 oem_dir: "/run/media/ansiblerunner/OEMDRV"    # noqa var-naming[no-role-prefix]
@@ -15,10 +15,10 @@ baremetal_hosts:                         # noqa var-naming[no-role-prefix]
     ipv4_gateway: "192.168.140.1"
     name_server1: "8.8.8.8"
     name_server2: "8.8.4.4"
-    boot_disk: "nvme0n1"
-    root_disk: "nvme0n1"
     root_enc_pass: "{{ encrypted_root_pass_vault }}"
     grub_enc_pass: "{{ encrypted_grub_pass_vault }}"
+    boot_disk: "nvme0n1"
+    root_disk: "nvme0n1"
     # We will always use compliance layout
     boot_mb: 1024
     boot_efi_mb: 2048
