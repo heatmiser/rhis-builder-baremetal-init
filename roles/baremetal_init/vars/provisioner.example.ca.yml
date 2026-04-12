@@ -17,6 +17,7 @@ baremetal_hosts:                         # noqa var-naming[no-role-prefix]
     name_server2: "8.8.4.4"
     root_enc_pass: "{{ encrypted_root_pass_vault }}"
     grub_enc_pass: "{{ encrypted_grub_pass_vault }}"
+    filesystem: "xfs"
     boot_disk: "/dev/nvme0n1"
     root_disk: "/dev/nvme0n1"
     # We will always use compliance layout
