@@ -46,13 +46,13 @@ part pv.{{ disk[-3:] }} --size=1 --grow --ondisk={{ disk }}
 # The following volume configuration meets most major Compliance Profiles (CPGPC, DISA-STIG, CIS, PCI-DSS, etc..)
 volgroup vg_root pv.01 {{ pvs | join(' ') }}
 logvol swap --recommended --vgname=vg_root --name=lv_swap
-logvol /  --vgname=vg_root --size={{ host.lv_root_mb }} --name=lv_root --fstype={{ host.filesystem }}
-logvol /home  --vgname=vg_root --size={{ host.lv_home_mb }} --name=lv_home --fstype={{ host.filesystem }}
-logvol /tmp  --vgname=vg_root --size={{ host.lv_tmp_mb }} --name=lv_tmp --fstype={{ host.filesystem }}
-logvol /var/tmp  --vgname=vg_root --size={{ host.lv_var_tmp_mb }} --name=lv_var_tmp --fstype={{ host.filesystem }}
-logvol /var/log --vgname=vg_root --size={{ host.lv_var_log_mb }} --name=lv_var_log --fstype={{ host.filesystem }}
-logvol /var/log/audit --vgname=vg_root --size={{ host.lv_var_log_audit_mb }} --name=lv_var_log_audit --fstype={{ host.filesystem }}
-logvol /var --vgname=vg_root --size={{ host.lv_var_mb }} --grow --name=lv_var --fstype={{ host.filesystem }}
+logvol /  --vgname=vg_root --size={{ host.lv_root_mb }} --name=lv_root --fstype={{ host.filesystem | default('xfs') }}
+logvol /home  --vgname=vg_root --size={{ host.lv_home_mb }} --name=lv_home --fstype={{ host.filesystem | default('xfs') }}
+logvol /tmp  --vgname=vg_root --size={{ host.lv_tmp_mb }} --name=lv_tmp --fstype={{ host.filesystem | default('xfs') }}
+logvol /var/tmp  --vgname=vg_root --size={{ host.lv_var_tmp_mb }} --name=lv_var_tmp --fstype={{ host.filesystem | default('xfs') }}
+logvol /var/log --vgname=vg_root --size={{ host.lv_var_log_mb }} --name=lv_var_log --fstype={{ host.filesystem | default('xfs') }}
+logvol /var/log/audit --vgname=vg_root --size={{ host.lv_var_log_audit_mb }} --name=lv_var_log_audit --fstype={{ host.filesystem | default('xfs') }}
+logvol /var --vgname=vg_root --size={{ host.lv_var_mb }} --grow --name=lv_var --fstype={{ host.filesystem | default('xfs') }}
 
 text
 reboot
@@ -63,7 +63,7 @@ man-pages
 net-tools
 bind-utils
 tmux
-{% if host.filesystem == "xfs" %}
+{% if host.filesystem is not defined or host.filesystem == "xfs" %}
 xfsdump
 {% endif %}
 yum-utils
